@@ -1,0 +1,52 @@
+stages:
+
+  unzip_directory:
+    cmd: unzip -d data/interim/ data/raw/subset.zip
+    deps:
+      - data/raw/subset.zip
+    outs:
+      - data/interim/subset/subset_img.zip
+      - data/interim/subset/subset_masks.zip
+
+  unzip_feat_and_mask:
+    cmd:
+      - mkdir -p data/interim/mask data/interim/feat
+      - unzip -d data/interim/mask data/interim/subset/subset_masks.zip
+      - unzip -d data/interim/feat data/interim/subset/subset_img.zip
+    deps:
+      - data/interim/subset/subset_img.zip
+      - data/interim/subset/subset_masks.zip
+    outs:
+      - data/interim/mask/subset_masks
+      - data/interim/feat/subset
+
+  train_test_split:
+    cmd: python src/data_preprocess.py data/interim/feat/subset data/interim/mask/subset_masks data/processed/train data/processed/test
+    deps:
+     - data/interim/feat/subset
+     - data/interim/mask/subset_masks
+    outs:
+      - data/processed/train/feat
+      - data/processed/train/mask
+      - data/processed/test/feat
+      - data/processed/test/mask
+
+  train:
+   cmd: python src/train.py 15 'cuda' 1 16 2
+   deps:
+     - data/processed/train/feat
+     - data/processed/train/mask
+     - data/processed/test/feat
+     - data/processed/test/mask
+   outs:
+     - outs/model/best_model.ckpt
+
+
+  score:
+   cmd: python src/metric.py test 'cuda' 16 2
+   deps:
+     - outs/model/best_model.ckpt
+     - data/processed/test/feat
+     - data/processed/test/mask
+
+
