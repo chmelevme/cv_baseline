@@ -3,3 +3,4 @@ dvc
 SimpleITK
 nibabel
 mlflow
+pytorch-lightning
