@@ -31,3 +31,9 @@ dvc repro
 
 Файл с функцией предобработки данных 
 - src/data_preprocess.py
+
+График функции ошибки
+![BCELoss](https://github.com/chmelevme/cv_baseline/blob/main/images/Loss.PNG)
+
+График метрики DICE Coef 
+![Dice coef](https://github.com/chmelevme/cv_baseline/blob/main/images/Dice.PNG)
