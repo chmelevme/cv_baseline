@@ -7,6 +7,7 @@ pip install -r requirements_pip.txt
 ```
 
 Скачать и переместить файл с данными subset.zip в директорию data/raw
+* [subset.zip](https://drive.google.com/file/d/1V0945MilWdmTdESlwJPBpLajizwmC-ap/view?usp=share_link)
 
 Запустить пайплайн подготовки данных и обучения модели
 
